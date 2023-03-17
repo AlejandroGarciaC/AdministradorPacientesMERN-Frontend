@@ -1,6 +1,6 @@
 import { createContext , useEffect, useState} from "react";
 import clienteAxios from "../config/axios";
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import useAuth from "../hooks/useAuth";
 
 const PacientesContext = createContext()
@@ -75,42 +75,63 @@ const PacientesProvider = ({children}) => {
     }
 
     const eliminarPaciente = async id => {
-        Swal.fire({
-            title: 'Estas seguro que quieres eliminar?',
-            text: "Se eliminara permanentemente!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, eliminar!',
-            cancelButtonText: 'Cancelar'
-          }).then(async (result) => {
-            if (result.isConfirmed) {
+        // Swal.fire({
+        //     title: 'Estas seguro que quieres eliminar?',
+        //     text: "Se eliminara permanentemente!",
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Si, eliminar!',
+        //     cancelButtonText: 'Cancelar'
+        //   }).then(async (result) => {
+        //     if (result.isConfirmed) {
 
-                try {
-                    const token = localStorage.getItem('token');
+        //         try {
+        //             const token = localStorage.getItem('token');
+        //             const config = {
+        //                 headers: {
+        //                     'Content-Type': "application/json",
+        //                     Authorization: `Bearer ${token}`
+        //                 }
+        //             }
+
+        //             const {data} = await clienteAxios.delete(`/pacientes/${id}`, config);
+        //             const pacientesActualizado = pacientes.filter(pacientesState => pacientesState._id !== id);
+        //             setPacientes(pacientesActualizado);
+        //         } catch (error) {
+        //             console.log(error);
+        //         }
+
+
+        //       Swal.fire(
+        //         'Eliminado!',
+        //         'El registro ha sido eliminado.',
+        //         'success'
+        //       )
+        //     }
+        //   })
+
+
+        const confirmar = confirm('Confirmas que deseas eliminar?')
+
+        if (confirmar) {
+            try {
+                const token = localStorage.getItem('token');
                     const config = {
                         headers: {
                             'Content-Type': "application/json",
                             Authorization: `Bearer ${token}`
                         }
                     }
-
-                    const {data} = await clienteAxios.delete(`/pacientes/${id}`, config);
-                    const pacientesActualizado = pacientes.filter(pacientesState => pacientesState._id !== id);
-                    setPacientes(pacientesActualizado);
-                } catch (error) {
-                    console.log(error);
-                }
-
-
-              Swal.fire(
-                'Eliminado!',
-                'El registro ha sido eliminado.',
-                'success'
-              )
+                const {data} = await clienteAxios.delete(`/pacientes/${id}`, config);
+                const pacientesActualizado = pacientes.filter(pacientesState => pacientesState._id !== id);
+                setPacientes(pacientesActualizado);
+                
+            } catch (error) {
+                console.log(error);
             }
-          })
+        }
     }
 
 
